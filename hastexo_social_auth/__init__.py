@@ -6,7 +6,7 @@ def get_version(version=None):  # pragma: no cover
     Returns a PEP 386-compliant version number from VERSION.
     """
     if version is None:
-        from hastexo_backend import VERSION as version
+        from hastexo_social_auth import VERSION as version
     else:
         assert len(version) == 5
         assert version[3] in ('alpha', 'beta', 'rc', 'final')

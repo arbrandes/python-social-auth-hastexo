@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-from hastexo_backend import get_version
+from hastexo_social_auth import get_version
 
 setup(
     name='python-social-auth-hastexo',
