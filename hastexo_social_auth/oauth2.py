@@ -5,7 +5,7 @@ class HastexoOAuth2(BaseOAuth2):
     """Hastexo OAuth2 authentication backend"""
 
     name = 'hastexo'
-    BASE_URL = 'https://store.hastexo.com'
+    BASE_URL = 'http://hastexo-store.lxc:8000'
     ACCESS_TOKEN_METHOD = 'POST'
     SCOPE_SEPARATOR = ' '
 
