@@ -12,11 +12,18 @@ class HastexoOAuth2(BaseOAuth2):
 
     def get_user_details(self, response):
         """Return user details from hastexo account"""
+
+        fullname, first_name, last_name = self.get_user_names(
+            first_name = response.get('first_name'),
+            last_name = response.get('last_name'),
+        )
+
         return {
             'username': response.get('username'),
             'email': response.get('email', ''),
-            'first_name': response.get('first_name', ''),
-            'last_name': response.get('last_name', '')
+            'fullname': fullname,
+            'first_name': first_name,
+            'last_name': last_name
         }
 
     def user_data(self, access_token, *args, **kwargs):
