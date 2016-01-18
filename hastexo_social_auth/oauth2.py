@@ -13,14 +13,14 @@ class HastexoOAuth2(BaseOAuth2):
     def get_user_details(self, response):
         """Return user details from hastexo account"""
         return {
-            'username': response['username'],
+            'username': response.get('username'),
             'email': response.get('email', ''),
-            'first_name': '',
-            'last_name': '',
+            'first_name': response.get('first_name', ''),
+            'last_name': response.get('last_name', '')
         }
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        return self.get_json('https://store.hastexo.com/api/users/', params={
+        return self.get_json('https://store.hastexo.com/api/login/', params={
             'access_token': access_token
         })
