@@ -5,10 +5,17 @@ class HastexoOAuth2(BaseOAuth2):
     """Hastexo OAuth2 authentication backend"""
 
     name = 'hastexo'
-    AUTHORIZATION_URL = 'https://store.hastexo.com/o/authorize/'
-    ACCESS_TOKEN_URL = 'https://store.hastexo.com/o/token/'
+    BASE_URL = 'https://store.hastexo.com'
     ACCESS_TOKEN_METHOD = 'POST'
     SCOPE_SEPARATOR = ' '
+
+    def __init__(self, *args, **kwargs):
+        """
+        Construct URLs dynamically.
+        """
+        self.AUTHORIZATION_URL = '{0}/o/authorize/'.format(self.BASE_URL)
+        self.ACCESS_TOKEN_URL = '{0}/o/token/'.format(self.BASE_URL)
+        super(HastexoOAuth2, self).__init__(*args, **kwargs)
 
     def get_user_details(self, response):
         """Return user details from hastexo account"""
@@ -28,6 +35,6 @@ class HastexoOAuth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        return self.get_json('https://store.hastexo.com/api/login/',
+        return self.get_json('{0}/api/login/'.format(self.BASE_URL),
             headers={'Authorization': 'Bearer {0}'.format(access_token)}
         )
