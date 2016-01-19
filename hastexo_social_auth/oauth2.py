@@ -1,5 +1,5 @@
 from social.backends.oauth import BaseOAuth2
-
+import re
 
 class HastexoOAuth2(BaseOAuth2):
     """Hastexo OAuth2 authentication backend"""
@@ -20,14 +20,26 @@ class HastexoOAuth2(BaseOAuth2):
     def get_user_details(self, response):
         """Return user details from hastexo account"""
 
+        # Check if username is an email, and if so, remove the domain.  Also,
+        # if we didn't get an email and the username looks like one, set the
+        # email explicitly.
+        username = response.get('username', '')
+        email = response.get('email', '')
+        if username:
+            matches = re.match(r'([^@]+)@[^@]+\.[^@]+', username)
+            if matches:
+                email = email or username
+                username = matches.group(1)
+
+        # Parse names
         fullname, first_name, last_name = self.get_user_names(
             first_name = response.get('first_name'),
             last_name = response.get('last_name'),
         )
 
         return {
-            'username': response.get('username'),
-            'email': response.get('email', ''),
+            'username': username,
+            'email': email,
             'fullname': fullname,
             'first_name': first_name,
             'last_name': last_name
